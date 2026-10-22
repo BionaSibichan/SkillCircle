@@ -1,0 +1,135 @@
+
+{% extends "base.html" %}
+
+{% block title %}My Profile | SkillCircle{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+    <div>
+        <span class="eyebrow">YOUR IDENTITY</span>
+        <h1>My profile</h1>
+        <p>Show the community who you are and what inspires you to learn.</p>
+    </div>
+
+    <a class="button button-primary" href="{% url 'accounts:edit_profile' %}">
+        Edit profile <span>↗</span>
+    </a>
+</section>
+
+<section class="profile-layout">
+
+    <!-- Profile Card -->
+    <article class="panel profile-card">
+
+        <div class="profile-cover-art">
+            <span class="cover-orb"></span>
+            <span class="cover-orb cover-orb-two"></span>
+        </div>
+
+        <div class="profile-avatar-wrap">
+            {% if student_profile.profile_picture %}
+                <img
+                    class="profile-avatar"
+                    src="{{ student_profile.profile_picture.url }}"
+                    alt="Profile picture"
+                >
+            {% else %}
+                <div class="profile-avatar avatar-fallback">
+                    {{ student_profile.full_name|default:user.username|slice:":1"|upper }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="profile-card-content">
+
+            <h2>{{ student_profile.full_name|default:user.username }}</h2>
+
+            <p class="profile-handle">@{{ user.username }}</p>
+
+            <p class="profile-bio">
+                Welcome to my SkillCircle profile! I'm here to share my skills,
+                learn new things, and connect with other students.
+            </p>
+
+            <div class="profile-meta">
+                <span>⌂ {{ student_profile.department|default:"Department not added" }}</span>
+                <span>✉ {{ user.email|default:"Email not added" }}</span>
+                <span>Year {{ student_profile.year_of_study }}</span>
+            </div>
+
+            <div class="profile-divider"></div>
+
+            <div class="profile-stat-row">
+                <div>
+                    <strong>{{ offered_skills.count|default:"0" }}</strong>
+                    <small>Teaching</small>
+                </div>
+
+                <div>
+                    <strong>{{ wanted_skills.count|default:"0" }}</strong>
+                    <small>Learning</small>
+                </div>
+            </div>
+
+        </div>
+    </article>
+
+    <!-- Skills Section -->
+    <div class="profile-side">
+
+        <section class="panel">
+
+            <div class="panel-heading">
+                <div>
+                    <span class="eyebrow">SKILL SNAPSHOT</span>
+                    <h2>What I bring</h2>
+                </div>
+
+                <a class="text-link" href="{% url 'skills:skill_list' %}">
+                    Manage ↗
+                </a>
+            </div>
+
+            <h3 class="small-section-title">I can teach</h3>
+
+            <div class="tag-list">
+                {% for item in offered_skills %}
+                    <span class="tag">
+                        {{ item.skill_name}}
+                    </span>
+                {% empty %}
+                    <span class="muted">No teaching skills added yet.</span>
+                {% endfor %}
+            </div>
+
+            <h3 class="small-section-title mt-24">I want to learn</h3>
+
+            <div class="tag-list">
+                {% for item in wanted_skills %}
+                    <span class="tag tag-soft">
+                        {{ item.skill_name }}
+                    </span>
+                {% empty %}
+                    <span class="muted">Add skills you'd like to learn.</span>
+                {% endfor %}
+            </div>
+
+        </section>
+
+        <section class="tip-banner">
+            <span class="tip-icon">✦</span>
+
+            <div>
+                <strong>Make your profile yours</strong>
+                <p>
+                    A thoughtful introduction helps potential learning partners
+                    understand your interests and goals.
+                </p>
+            </div>
+        </section>
+
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Explore skills{% endblock %}
+{% block content %}
+<section class="page-heading"><div><span class="eyebrow">FIND YOUR PEOPLE</span><h1>Explore the skill <span class="text-gradient">circle.</span></h1><p>Discover what your fellow students know and find a learning partner for your next goal.</p></div></section>
+<form method="get" class="search-panel panel"><div class="search-input-wrap"><span>⌕</span><input type="search" name="q" value="{{ request.GET.q }}" placeholder="Search skills, students, or interests..." aria-label="Search skills and students"></div><button class="button button-primary" type="submit">Search skills</button></form>
+<div class="content-toolbar"><div><span class="result-count">{% if matches %}{{ matches|length }}{% else %}Discover your next match{% endif %}</span><span class="muted"> · Start with a shared interest</span></div><a class="text-link" href="{% url 'skills:my_skills' %}">Manage my skills ↗</a></div>
+<section class="people-grid">
+{% for match in matches %}
+<article class="person-card"><div class="person-card-top"><span class="match-label">SKILL CIRCLE MEMBER</span><span class="person-menu">✦</span></div><div class="person-identity">{% if match.profile_picture %}<img class="person-avatar" src="{{ match.profile_picture.url }}" alt="Student profile">{% else %}<span class="person-avatar avatar-fallback">{{ match.user.first_name|default:match.user.username|slice:":1"|upper }}</span>{% endif %}<div><h3>{{ match.user.get_full_name|default:match.user.username }}</h3><p>{{ match.department|default:"Student member" }}</p></div></div><p class="person-bio">{{ match.bio|default:"Ready to share knowledge and learn something new."|truncatechars:105 }}</p><div class="person-skills"><span class="tag">Skills available</span>{% if match.offered_skill %}<span class="tag tag-soft">{{ match.offered_skill }}</span>{% endif %}</div><div class="person-card-footer"><span class="availability-dot">● Open to learning</span><a class="button button-secondary button-sm" href="{% url 'exchanges:create_request' match.id %}">Connect ↗</a></div></article>
+{% empty %}
+<div class="empty-state empty-wide"><span class="empty-icon">⌕</span><h3>Your next match is out there</h3><p>No matches found yet. Try another search, or add your skills to help others discover you.</p><a class="button button-primary" href="{% url 'skills:add_skill' %}">Add my skills</a></div>
+{% endfor %}
+</section>
+{% endblock %}

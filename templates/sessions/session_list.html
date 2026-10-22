@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Learning sessions{% endblock %}
+{% block content %}
+<section class="page-heading"><div><span class="eyebrow">LEARNING IN ACTION</span><h1>Your learning <span class="text-gradient">sessions.</span></h1><p>Keep track of the moments where knowledge turns into progress.</p></div></section>
+<section class="panel"><div class="panel-heading"><div><span class="eyebrow">YOUR SCHEDULE</span><h2>Upcoming and past sessions</h2></div><span class="count-pill">{{ sessions|length }}</span></div>
+{% for session in sessions %}<a class="session-row" href="{% url 'sessions:detail' session.id %}"><span class="calendar-tile"><strong>{{ session.scheduled_at|date:"d" }}</strong><small>{{ session.scheduled_at|date:"M" }}</small></span><span class="session-row-copy"><strong>{{ session.topic }}</strong><small>{{ session.scheduled_at|date:"l, F j · g:i A" }} · {{ session.get_meeting_mode_display|default:session.meeting_mode }}</small></span><span class="status status-{{ session.status|lower }}">{{ session.get_status_display|default:session.status }}</span><span class="row-arrow">↗</span></a>{% empty %}<div class="empty-state"><span class="empty-icon">◷</span><h3>Your schedule is open</h3><p>Once an exchange is accepted, you can arrange a session and start learning together.</p><a class="button button-primary" href="{% url 'exchanges:requests' %}">View accepted exchanges</a></div>{% endfor %}
+</section>
+{% endblock %}

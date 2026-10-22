@@ -1,0 +1,130 @@
+
+{% extends "base.html" %}
+
+{% block title %}My Skills | SkillCircle{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+    <div>
+        <span class="eyebrow">YOUR SKILL PORTFOLIO</span>
+        <h1>Skills worth <span class="text-gradient">sharing.</span></h1>
+        <p>Keep your teaching strengths and learning goals in one place.</p>
+    </div>
+
+    <a class="button button-primary" href="{% url 'skills:add_skill' %}">
+        + Add a skill
+    </a>
+</section>
+
+<div class="skills-manage-grid">
+
+    <!-- Skills I can teach -->
+    <section class="panel">
+        <div class="panel-heading">
+            <div>
+                <span class="eyebrow">YOUR STRENGTHS</span>
+                <h2>I can teach</h2>
+            </div>
+        </div>
+
+        <p class="panel-description">
+            Skills you can share with another student.
+        </p>
+
+        <div class="managed-skill-list">
+
+            {% for item in offered_skills %}
+    
+
+                <div class="managed-skill">
+                    <span class="skill-symbol icon-purple">✦</span>
+
+                    <div>
+                        <strong>{{ item.skill_name }}</strong>
+                        <small>
+                            {{ item.description|default:"Ready to share your knowledge." }}
+                        </small>
+                    </div>
+
+                    <a class="icon-button"
+                       href="{% url 'skills:edit_skill' item.id %}"
+                       aria-label="Edit {{ item.skill_name }}">
+                        ✎
+                    </a>
+
+                    <a class="icon-button"
+                       href="{% url 'skills:delete_skill' item.id %}"
+                       aria-label="Delete {{ item.skill_name }}">
+                        ×
+                    </a>
+                </div>
+
+                
+            {% empty %}
+                <div class="empty-state compact">
+                    <span class="empty-icon">✦</span>
+                    <h3>No teaching skills yet</h3>
+                    <p>Add something you know well.</p>
+                </div>
+            {% endfor %}
+
+        </div>
+    </section>
+
+    <!-- Skills I want to learn -->
+    <section class="panel">
+        <div class="panel-heading">
+            <div>
+                <span class="eyebrow">YOUR NEXT GOALS</span>
+                <h2>I want to learn</h2>
+            </div>
+        </div>
+
+        <p class="panel-description">
+            Skills you would love to explore.
+        </p>
+
+        <div class="managed-skill-list">
+
+            {% for item in wanted_skills %}
+            
+
+                <div class="managed-skill">
+                    <span class="skill-symbol icon-blue">⌕</span>
+
+                    <div>
+                        <strong>{{ item.skill_name }}</strong>
+                        <small>
+                            {{ item.description|default:"A new goal on your learning path." }}
+                        </small>
+                    </div>
+
+                    <a class="icon-button"
+                       href="{% url 'skills:edit_skill' item.id %}"
+                       aria-label="Edit {{ item.skill_name }}">
+                        ✎
+                    </a>
+
+                    <a class="icon-button"
+                       href="{% url 'skills:delete_skill' item.id %}"
+                       aria-label="Delete {{ item.skill_name }}">
+                        ×
+                    </a>
+                </div>
+
+                
+            {% empty %}
+                <div class="empty-state compact">
+                    <span class="empty-icon">⌕</span>
+                    <h3>No learning goals yet</h3>
+                    <p>Add a skill you want to learn.</p>
+                </div>
+            {% endfor %}
+
+        </div>
+    </section>
+
+</div>
+
+{% endblock %}

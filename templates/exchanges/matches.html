@@ -1,0 +1,93 @@
+
+{% extends "base.html" %}
+
+{% block title %}Skill matches{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+    <div>
+        <span class="eyebrow">BETTER TOGETHER</span>
+        <h1>Meet your learning <span class="text-gradient">matches.</span></h1>
+        <p>Find students whose strengths can help you reach your goals—and share what you know in return.</p>
+    </div>
+</section>
+
+<div class="match-intro panel">
+    <span class="match-intro-icon">✦</span>
+    <div>
+        <h2>Great exchanges start with curiosity.</h2>
+        <p>Browse students, explore their skills, and send a request when you find someone you'd like to learn with.</p>
+    </div>
+    <a class="button button-primary" href="{% url 'skills:skill_list' %}">
+        Browse skills ↗
+    </a>
+</div>
+
+<section class="people-grid">
+
+    {% for match in matches %}
+
+    <article class="person-card">
+
+        <div class="person-card-top">
+            <span class="match-label">POTENTIAL MATCH</span>
+            <span class="match-spark">✦</span>
+        </div>
+
+        <div class="person-identity">
+
+            {% if match.profile_picture %}
+                <img class="person-avatar"
+                     src="{{ match.profile_picture.url }}"
+                     alt="Profile picture">
+            {% else %}
+                <span class="person-avatar avatar-fallback">
+                    {{ match.user.first_name|default:match.user.username|slice:":1"|upper }}
+                </span>
+            {% endif %}
+
+            <div>
+                <h3>{{ match.user.get_full_name|default:match.user.username }}</h3>
+                <p>{{ match.department|default:"Student" }}</p>
+            </div>
+
+        </div>
+
+        <p class="person-bio">
+            A fellow learner ready to exchange knowledge.
+        </p>
+
+        <div class="person-skills">
+            <strong>Skills offered</strong>
+
+            {% for skill in match.offered_skills %}
+                <p>{{ skill.skill_name }}</p>
+
+                <a class="button button-secondary button-sm"
+                   href="{% url 'exchanges:create_exchange' skill.id %}">
+                    Send request ↗
+                </a>
+            {% empty %}
+                <p>No offered skills listed yet.</p>
+            {% endfor %}
+        </div>
+
+    </article>
+
+    {% empty %}
+
+    <div class="empty-state empty-wide">
+        <span class="empty-icon">✦</span>
+        <h3>Your circle is just getting started</h3>
+        <p>Add skills to your profile and check back as more students join the community.</p>
+        <a class="button button-primary" href="{% url 'skills:skill_list' %}">
+            Explore skills
+        </a>
+    </div>
+
+    {% endfor %}
+
+</section>
+
+{% endblock %}

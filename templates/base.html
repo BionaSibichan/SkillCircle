@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}SkillCircle helps students learn, teach, and grow together.{% endblock %}">
+    <title>{% block title %}SkillCircle{% endblock %} | SkillCircle</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+<div class="site-shell">
+
+    <header class="topbar">
+        <a class="brand" href="{% url 'dashboard:dashboard' %}" aria-label="SkillCircle home">
+            <span class="brand-mark">S</span>
+            <span>skill<span class="brand-accent">circle</span></span>
+        </a>
+
+        <button class="mobile-menu-toggle" type="button"
+                aria-label="Toggle navigation"
+                onclick="document.body.classList.toggle('nav-open')">☰</button>
+
+        <nav class="main-nav" aria-label="Main navigation">
+            <a href="{% url 'dashboard:dashboard' %}"
+               class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                Home
+            </a>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard:dashboard' %}">Dashboard</a>
+                <a href="{% url 'skills:skill_list' %}">Explore skills</a>
+                <a href="{% url 'exchanges:exchange_list' %}">Skill exchanges</a>
+                <a href="{% url 'learning_sessions:session_list' %}">Learning sessions</a>
+            {% endif %}
+        </nav>
+
+        <div class="topbar-actions">
+            {% if user.is_authenticated %}
+                <a class="avatar-link" href="{% url 'accounts:profile' %}">
+                    {% if profile and profile.profile_picture %}
+                        <img class="avatar avatar-sm"
+                             src="{{ profile.profile_picture.url }}"
+                             alt="Your profile">
+                    {% else %}
+                        <span class="avatar avatar-sm avatar-fallback">
+                            {{ user.first_name|default:user.username|slice:":1"|upper }}
+                        </span>
+                    {% endif %}
+
+                    <span class="user-greeting">
+                        {{ user.first_name|default:user.username }}
+                    </span>
+                </a>
+
+                <form method="post" action="{% url 'accounts:logout' %}" class="inline-form">
+                    {% csrf_token %}
+                    <button class="button button-ghost button-sm" type="submit">
+                        Log out
+                    </button>
+                </form>
+            {% else %}
+                <a class="button button-ghost button-sm" href="{% url 'accounts:login' %}">
+                    Log in
+                </a>
+
+                <a class="button button-primary button-sm" href="{% url 'accounts:register' %}">
+                    Get started <span aria-hidden="true">↗</span>
+                </a>
+            {% endif %}
+        </div>
+    </header>
+
+    {% if messages %}
+        <div class="messages-wrap" aria-live="polite">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }}">
+                    <span>{{ message }}</span>
+                    <button type="button"
+                            aria-label="Dismiss message"
+                            onclick="this.parentElement.remove()">×</button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <a class="brand brand-footer" href="{% url 'dashboard:dashboard' %}">
+            <span class="brand-mark">S</span>
+            <span>skill<span class="brand-accent">circle</span></span>
+        </a>
+
+        <p>Learn together. Grow together.</p>
+        <span class="footer-copy">
+            © {% now "Y" %} SkillCircle · Built for curious minds.
+        </span>
+    </footer>
+
+</div>
+
+{% block extra_js %}{% endblock %}
+</body>
+</html>

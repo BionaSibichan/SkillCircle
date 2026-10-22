@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Log in{% endblock %}
+{% block content %}
+<section class="auth-layout">
+    <div class="auth-story"><a class="brand" href="{% url 'dashboard:dashboard' %}"><span class="brand-mark">S</span><span>skill<span class="brand-accent">circle</span></span></a><div class="auth-story-content"><span class="eyebrow eyebrow-light">GOOD TO HAVE YOU BACK</span><h1>Your circle.<br>Your next chapter.</h1><p>Pick up where you left off, reconnect with fellow students, and keep your learning journey moving.</p><div class="story-quote"><span>✦</span><p>Every expert was once a beginner. Keep showing up.</p></div></div><span class="auth-decoration auth-decoration-one"></span><span class="auth-decoration auth-decoration-two"></span></div>
+    <div class="auth-form-wrap"><div class="auth-form-card"><span class="eyebrow">WELCOME BACK</span><h2>Log in to SkillCircle</h2><p class="muted">Your learning community is waiting for you.</p>
+        <form method="post" class="form-stack" novalidate>{% csrf_token %}
+            {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+            {% for field in form %}<div class="form-field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% for error in field.errors %}<small class="field-error">{{ error }}</small>{% endfor %}</div>{% endfor %}
+            <button class="button button-primary button-block button-lg" type="submit">Log in <span>↗</span></button>
+        </form>
+        <p class="auth-switch">New to SkillCircle? <a href="{% url 'accounts:register' %}">Create an account</a></p>
+    </div></div>
+</section>
+{% endblock %}

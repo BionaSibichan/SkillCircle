@@ -1,0 +1,70 @@
+
+{% extends "base.html" %}
+
+{% block title %}Edit Skill | SkillCircle{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Edit Skill</h1>
+    <p>Update your skill details below.</p>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="skill_name">Skill Name</label>
+            <input
+                type="text"
+                id="skill_name"
+                name="skill_name"
+                value="{{ skill.skill_name }}"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category" name="category" required>
+                {% for value, label in skill.CATEGORY_CHOICES %}
+                    <option value="{{ value }}"
+                        {% if skill.category == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea
+                id="description"
+                name="description"
+                rows="4"
+            >{{ skill.description }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="is_offered">Skill Type</label>
+            <select id="is_offered" name="is_offered" required>
+                <option value="true"
+                    {% if skill.is_offered %}selected{% endif %}>
+                    I can teach this skill
+                </option>
+                <option value="false"
+                    {% if not skill.is_offered %}selected{% endif %}>
+                    I want to learn this skill
+                </option>
+            </select>
+        </div>
+
+        <button type="submit">Save Changes</button>
+        <a href="{% url 'skills:my_skills' %}">Cancel</a>
+    </form>
+</div>
+{% endblock %}

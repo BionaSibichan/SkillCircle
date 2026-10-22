@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Learn together{% endblock %}
+{% block content %}
+<section class="hero-section">
+    <div class="hero-copy">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> THE STUDENT-POWERED LEARNING COMMUNITY</span>
+        <h1>Your next skill is<br><span class="text-gradient">closer than you think.</span></h1>
+        <p class="hero-description">Share what you know. Learn what you love. SkillCircle connects students who want to exchange skills, collaborate, and grow together.</p>
+        <div class="hero-actions">
+            {% if user.is_authenticated %}
+                <a class="button button-primary button-lg" href="{% url 'dashboard:dashboard' %}">Go to dashboard <span>↗</span></a>
+                <a class="button button-secondary button-lg" href="{% url 'skills:directory' %}">Explore skills</a>
+            {% else %}
+                <a class="button button-primary button-lg" href="{% url 'accounts:register' %}">Join the community <span>↗</span></a>
+                <a class="button button-secondary button-lg" href="{% url 'accounts:login' %}">I already have an account</a>
+            {% endif %}
+        </div>
+        <div class="hero-proof"><div class="proof-avatars"><span>J</span><span>M</span><span>A</span><span>+</span></div><p><strong>One community.</strong><br>Endless ways to learn.</p></div>
+    </div>
+    <div class="hero-visual">
+        <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
+        <div class="floating-card floating-card-top"><span class="mini-icon icon-purple">✦</span><div><strong>Learn something new</strong><small>One skill at a time</small></div></div>
+        <div class="learning-card">
+            <div class="learning-card-head"><span class="eyebrow">YOUR LEARNING CIRCLE</span><span class="online-dot">● Live community</span></div>
+            <div class="learning-illustration"><div class="circle-art art-one">✎</div><div class="circle-art art-two">⌘</div><div class="circle-art art-three">✦</div><div class="art-center">S</div></div>
+            <h3>Skills grow better together.</h3><p>Find your people. Share your knowledge.</p>
+            <div class="skill-chip-row"><span class="skill-chip">Python</span><span class="skill-chip">Design</span><span class="skill-chip">Public speaking</span></div>
+        </div>
+        <div class="floating-card floating-card-bottom"><span class="mini-icon icon-green">↗</span><div><strong>Knowledge goes both ways</strong><small>Teach · Learn · Repeat</small></div></div>
+    </div>
+</section>
+<section class="stats-strip">
+    <div><strong>01</strong><span>Share your strengths</span></div><div><strong>02</strong><span>Discover new skills</span></div><div><strong>03</strong><span>Learn peer to peer</span></div><div><strong>04</strong><span>Grow together</span></div>
+</section>
+<section class="section-block">
+    <div class="section-heading"><div><span class="eyebrow">HOW IT WORKS</span><h2>Make learning a <span class="text-gradient">two-way street.</span></h2></div><p>Everyone has something to teach and something new to learn.</p></div>
+    <div class="feature-grid">
+        <article class="feature-card"><span class="feature-number">01</span><span class="feature-icon icon-purple">✦</span><h3>Build your circle</h3><p>Create your student profile and show the community what you can teach and what you want to learn.</p></article>
+        <article class="feature-card"><span class="feature-number">02</span><span class="feature-icon icon-blue">⌕</span><h3>Find your match</h3><p>Explore student skills, discover shared interests, and send an exchange request to someone who fits your goals.</p></article>
+        <article class="feature-card"><span class="feature-number">03</span><span class="feature-icon icon-green">↗</span><h3>Learn by doing</h3><p>Arrange a learning session, exchange ideas, and celebrate progress as your skills grow.</p></article>
+    </div>
+</section>
+<section class="cta-banner"><div><span class="eyebrow eyebrow-light">YOUR KNOWLEDGE HAS VALUE</span><h2>Ready to exchange more than notes?</h2><p>Join a community where every student can be both learner and mentor.</p></div><a class="button button-light button-lg" href="{% if user.is_authenticated %}{% url 'skills:directory' %}{% else %}{% url 'accounts:register' %}{% endif %}">Start exploring <span>↗</span></a></section>
+{% endblock %}

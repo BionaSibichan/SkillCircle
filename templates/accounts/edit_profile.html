@@ -1,0 +1,94 @@
+
+{% extends "base.html" %}
+
+{% block title %}Edit Profile | SkillCircle{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <span class="eyebrow">YOUR IDENTITY</span>
+        <h1>Edit your profile</h1>
+        <p>Update your details so other students can get to know you.</p>
+    </div>
+</section>
+
+<section class="panel">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="full_name">Full name</label>
+            <input
+                type="text"
+                id="full_name"
+                name="full_name"
+                value="{{ student_profile.full_name }}"
+                required
+            >
+        </div>
+        
+        
+<div class="form-group">
+    <label for="email">Email address</label>
+    <input
+        type="email"
+        id="email"
+        name="email"
+        value="{{ user.email }}"
+        placeholder="Enter your email address"
+        required
+    >
+</div>
+
+        <div class="form-group">
+            <label for="department">Department</label>
+            <input
+                type="text"
+                id="department"
+                name="department"
+                value="{{ student_profile.department }}"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="year_of_study">Year of study</label>
+            <input
+                type="number"
+                id="year_of_study"
+                name="year_of_study"
+                min="1"
+                value="{{ student_profile.year_of_study }}"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="profile_picture">Profile picture</label>
+
+            {% if student_profile.profile_picture %}
+                <p>Current picture:</p>
+                <img
+                    src="{{ student_profile.profile_picture.url }}"
+                    alt="Current profile picture"
+                    width="100"
+                >
+            {% endif %}
+
+            <input
+                type="file"
+                id="profile_picture"
+                name="profile_picture"
+                accept="image/*"
+            >
+        </div>
+
+        <button type="submit" class="button button-primary">
+            Save changes
+        </button>
+
+        <a href="{% url 'accounts:profile' %}" class="button">
+            Cancel
+        </a>
+    </form>
+</section>
+{% endblock %}

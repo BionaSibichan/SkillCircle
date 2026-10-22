@@ -1,0 +1,185 @@
+
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<section class="page-heading dashboard-heading">
+    <div>
+        <span class="eyebrow">YOUR LEARNING SPACE</span>
+        <h1>
+            Welcome back, {{ user.first_name|default:user.username }}
+            <span class="wave">✦</span>
+        </h1>
+        <p>Small steps lead to remarkable skills. Here's your progress at a glance.</p>
+    </div>
+
+    <a href="{% url 'skills:add_skill' %}" class="button button-primary">
+        + Add a skill
+    </a>
+</section>
+
+<section class="metric-grid">
+
+    <article class="metric-card">
+        <div class="metric-top">
+            <span>Skills you teach</span>
+            <span class="metric-icon icon-purple">↗</span>
+        </div>
+        <strong>{{ offered_count|default:"0" }}</strong>
+        <small>Ready to share with others</small>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-top">
+            <span>Skills to learn</span>
+            <span class="metric-icon icon-blue">✦</span>
+        </div>
+        <strong>{{ wanted_count|default:"0" }}</strong>
+        <small>Your next learning goals</small>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-top">
+            <span>Pending requests</span>
+            <span class="metric-icon icon-amber">◷</span>
+        </div>
+        <strong>{{ pending_count|default:"0" }}</strong>
+        <small>Waiting for a response</small>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-top">
+            <span>Learning sessions</span>
+            <span class="metric-icon icon-green">✓</span>
+        </div>
+        <strong>{{ session_count|default:"0" }}</strong>
+        <small>Keep the momentum going</small>
+    </article>
+
+</section>
+
+<div class="dashboard-grid">
+
+    <!-- Your Next Steps -->
+    <section class="panel panel-main">
+
+        <div class="panel-heading">
+            <div>
+                <span class="eyebrow">YOUR NEXT STEPS</span>
+                <h2>Make progress today</h2>
+            </div>
+        </div>
+
+        <a class="action-row" href="{% url 'accounts:profile' %}">
+            <span class="action-symbol icon-purple">◎</span>
+
+            <span class="action-copy">
+                <strong>Complete your profile</strong>
+                <small>Help others get to know you.</small>
+            </span>
+
+            <span class="row-arrow">↗</span>
+        </a>
+
+        <a class="action-row" href="{% url 'skills:skill_list' %}">
+            <span class="action-symbol icon-blue">✦</span>
+
+            <span class="action-copy">
+                <strong>Update your skills</strong>
+                <small>Tell the community what you can offer.</small>
+            </span>
+
+            <span class="row-arrow">↗</span>
+        </a>
+
+        <a class="action-row" href="{% url 'learning_sessions:session_list' %}">
+            <span class="action-symbol icon-green">✓</span>
+
+            <span class="action-copy">
+                <strong>Check your sessions</strong>
+                <small>See your learning opportunities.</small>
+            </span>
+
+            <span class="row-arrow">↗</span>
+        </a>
+
+    </section>
+
+    <!-- Learning Sessions -->
+    <section class="panel">
+
+        <div class="panel-heading">
+            <div>
+                <span class="eyebrow">UP NEXT</span>
+                <h2>Learning sessions</h2>
+            </div>
+
+            <a class="text-link"
+               href="{% url 'learning_sessions:session_list' %}">
+                View all ↗
+            </a>
+        </div>
+
+        {% for session in upcoming_sessions %}
+
+            <a class="session-mini"
+               href="{% url 'learning_sessions:session_list' %}">
+
+                <span class="calendar-tile">
+                    <strong>{{ session.scheduled_at|date:"d" }}</strong>
+                    <small>{{ session.scheduled_at|date:"M" }}</small>
+                </span>
+
+                <span class="session-mini-copy">
+                    <strong>{{ session.topic }}</strong>
+                    <small>
+                        {{ session.scheduled_at|date:"D, M j · g:i A" }}
+                    </small>
+                </span>
+
+                <span class="row-arrow">↗</span>
+
+            </a>
+
+        {% empty %}
+
+            <div class="empty-state compact">
+                <span class="empty-icon">◷</span>
+                <h3>No sessions scheduled</h3>
+                <p>
+                    Accepted exchanges can become your next learning session.
+                </p>
+
+                <a class="text-link" href="{% url 'skills:skill_list' %}">
+                    Explore skills ↗
+                </a>
+            </div>
+
+        {% endfor %}
+
+    </section>
+
+</div>
+
+<!-- Learning Tip -->
+<section class="tip-banner">
+
+    <span class="tip-icon">✦</span>
+
+    <div>
+        <strong>A little tip for your learning journey</strong>
+        <p>
+            Be specific about your goals. A clear skill description makes it
+            easier for the right people to find you.
+        </p>
+    </div>
+
+    <a href="{% url 'skills:skill_list' %}" class="text-link">
+        Review skills ↗
+    </a>
+
+</section>
+
+{% endblock %}

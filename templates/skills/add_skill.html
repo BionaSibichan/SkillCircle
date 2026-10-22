@@ -1,0 +1,90 @@
+
+{% extends "base.html" %}
+
+{% block title %}Add a skill | SkillCircle{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+    <div>
+        <span class="eyebrow">GROW YOUR CIRCLE</span>
+        <h1>Add a skill.</h1>
+        <p>Share your strengths or tell the community what you'd like to learn next.</p>
+    </div>
+
+    <a class="button button-secondary"
+       href="{% url 'skills:my_skills' %}">
+        ← My skills
+    </a>
+</section>
+
+<section class="form-panel panel form-panel-narrow">
+
+    <div class="form-intro-block">
+        <span class="feature-icon icon-purple">✦</span>
+        <div>
+            <h2>Tell us about your skill</h2>
+            <p class="muted">
+                Be clear and specific. It helps other students find the right match.
+            </p>
+        </div>
+    </div>
+
+    <form method="post" class="form-stack">
+        {% csrf_token %}
+
+        <div class="form-field">
+            <label for="skill_name">Skill name <span class="required">*</span></label>
+            <input type="text" id="skill_name" name="skill_name"
+                   value="{{ request.POST.skill_name|default:'' }}"
+                   placeholder="e.g. Python, Graphic Design" required>
+        </div>
+
+        <div class="form-field">
+            <label for="category">Category <span class="required">*</span></label>
+            <select id="category" name="category" required>
+                <option value="">Choose a category</option>
+                {% for value, label in category_choices %}
+                    <option value="{{ value }}"
+                        {% if request.POST.category == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-field">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="4"
+                      placeholder="Describe your skill...">{{ request.POST.description|default:'' }}</textarea>
+        </div>
+
+        <div class="form-field">
+            <label for="is_offered">Skill type <span class="required">*</span></label>
+            <select id="is_offered" name="is_offered" required>
+                <option value="true"
+                    {% if request.POST.is_offered != 'false' %}selected{% endif %}>
+                    I can teach this
+                </option>
+                <option value="false"
+                    {% if request.POST.is_offered == 'false' %}selected{% endif %}>
+                    I want to learn this
+                </option>
+            </select>
+        </div>
+
+        <div class="form-actions">
+            <a class="button button-secondary"
+               href="{% url 'skills:my_skills' %}">
+                Cancel
+            </a>
+
+            <button class="button button-primary" type="submit">
+                Save skill <span>↗</span>
+            </button>
+        </div>
+    </form>
+
+</section>
+
+{% endblock %}

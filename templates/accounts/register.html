@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Create account{% endblock %}
+{% block content %}
+<section class="auth-layout">
+    <div class="auth-story"><a class="brand" href="{% url 'dashboard:dashboard' %}"><span class="brand-mark">S</span><span>skill<span class="brand-accent">circle</span></span></a><div class="auth-story-content"><span class="eyebrow eyebrow-light">A COMMUNITY THAT GROWS WITH YOU</span><h1>Your skills are<br>worth sharing.</h1><p>Meet students who are ready to teach, learn, collaborate, and celebrate every little win with you.</p><div class="story-quote"><span>“</span><p>Learning becomes more powerful when we learn from each other.</p></div></div><span class="auth-decoration auth-decoration-one"></span><span class="auth-decoration auth-decoration-two"></span></div>
+    <div class="auth-form-wrap"><div class="auth-form-card"><span class="eyebrow">GET STARTED — IT'S FREE</span><h2>Create your account</h2><p class="muted">Start building your learning circle today.</p>
+        <form method="post" class="form-stack" novalidate>{% csrf_token %}
+            {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+            {% for field in form %}
+            <div class="form-field"><label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %}<span class="required">*</span>{% endif %}</label>{{ field }}{% if field.help_text %}<small class="field-help">{{ field.help_text|safe }}</small>{% endif %}{% for error in field.errors %}<small class="field-error">{{ error }}</small>{% endfor %}</div>
+            {% endfor %}
+            <button class="button button-primary button-block button-lg" type="submit">Create account <span>↗</span></button>
+        </form>
+        <p class="auth-switch">Already part of SkillCircle? <a href="{% url 'accounts:login' %}">Log in</a></p>
+        <p class="terms-note">By joining, you agree to use the community respectfully and responsibly.</p>
+    </div></div>
+</section>
+{% endblock %}

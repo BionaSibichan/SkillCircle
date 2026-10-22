@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Exchange request{% endblock %}
+{% block content %}
+<section class="page-heading"><div><span class="eyebrow">EXCHANGE DETAILS</span><h1>A chance to learn <span class="text-gradient">together.</span></h1><p>Review the request and decide on the next step for your learning journey.</p></div><a class="button button-secondary" href="{% url 'exchanges:requests' %}">← All requests</a></section>
+<section class="detail-layout"><article class="panel request-detail-card"><div class="detail-topline"><span class="eyebrow">REQUEST SUMMARY</span><span class="status status-{{ exchange_request.status|lower }}">{{ exchange_request.get_status_display|default:exchange_request.status }}</span></div><h2>{{ exchange_request.requester.get_full_name|default:exchange_request.requester.username }} <span class="detail-arrow">↔</span> {{ exchange_request.receiver.get_full_name|default:exchange_request.receiver.username }}</h2><p class="muted">Sent {{ exchange_request.created_at|date:"F j, Y · g:i A" }}</p><div class="exchange-skills"><div><span class="skill-label">OFFERING</span><h3>{{ exchange_request.offered_skill|default:"Skill to share" }}</h3><p>Knowledge they can bring to the exchange.</p></div><span class="exchange-symbol">↔</span><div><span class="skill-label">HOPING TO LEARN</span><h3>{{ exchange_request.requested_skill|default:"Skill to learn" }}</h3><p>A new skill to explore together.</p></div></div><div class="message-box"><span class="skill-label">PERSONAL MESSAGE</span><p>{{ exchange_request.message|default:"No additional message was included." }}</p></div>
+{% if exchange_request.status == 'pending' and user == exchange_request.receiver %}
+    <div class="detail-actions">
+        <form method="post" action="{% url 'exchanges:accept_exchange' exchange_request.id %}">
+            {% csrf_token %}
+            <button class="button button-primary" type="submit">
+                Accept request ✓
+            </button>
+        </form>
+
+        <form method="post" action="{% url 'exchanges:reject_exchange' exchange_request.id %}">
+            {% csrf_token %}
+            <button class="button button-danger-outline" type="submit">
+                Decline request
+            </button>
+        </form>
+    </div>
+{% endif %}
+</article><aside class="panel detail-aside"><span class="feature-icon icon-blue">✦</span><h3>Make it a great exchange</h3><p>Agree on a clear goal, choose a comfortable meeting format, and give each other room to ask questions.</p><div class="aside-divider"></div><div class="aside-tip"><strong>Keep it respectful</strong><small>Be punctual, curious, and encouraging. Everyone starts somewhere.</small></div></aside></section>
+{% endblock %}
