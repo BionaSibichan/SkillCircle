@@ -1,0 +1,63 @@
+
+{% extends "base.html" %}
+
+{% block title %}Notifications | SkillCircle{% endblock %}
+
+{% block content %}
+<div class="page-shell">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">STAY UPDATED</p>
+            <h1>Notifications 🔔</h1>
+            <p class="form-intro">
+                Keep track of your SkillCircle activity.
+            </p>
+        </div>
+
+        {% if notifications %}
+            <form method="POST"
+                  action="{% url 'notifications:mark_all_as_read' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn">
+                    Mark all as read
+                </button>
+            </form>
+        {% endif %}
+    </div>
+
+    <div class="form-card">
+        {% for notification in notifications %}
+            <div class="notification-item">
+                <h3>
+                    {{ notification.title }}
+                    {% if not notification.is_read %}
+                        <span>• New</span>
+                    {% endif %}
+                </h3>
+
+                <p>{{ notification.message }}</p>
+
+                <small>
+                    {{ notification.created_at|date:"d M Y, h:i A" }}
+                </small>
+
+                {% if not notification.is_read %}
+                    <form method="POST"
+                          action="{% url 'notifications:mark_as_read' notification.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">
+                            Mark as read
+                        </button>
+                    </form>
+                {% endif %}
+
+                {% if notification.link %}
+                    <a href="{{ notification.link }}">View details</a>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>You don't have any notifications yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

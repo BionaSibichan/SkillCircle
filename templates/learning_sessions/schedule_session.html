@@ -1,0 +1,97 @@
+
+{% extends "base.html" %}
+
+{% block title %}Schedule Learning Session | SkillCircle{% endblock %}
+
+{% block content %}
+<div class="session-form-page">
+    <div class="session-form-card">
+        <p class="eyebrow">LEARN TOGETHER</p>
+        <h1>Schedule a Learning Session</h1>
+
+        <p>
+            Exchange: {{ exchange.skill.skill_name }}
+        </p>
+
+        <p>
+            Learning partner:
+            {{ exchange.requester.username }}
+            and {{ exchange.receiver.username }}
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="session_date">Session date</label>
+                <input
+                    type="date"
+                    id="session_date"
+                    name="session_date"
+                    min="{{ today|date:'Y-m-d' }}"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="start_time">Start time</label>
+                <input
+                    type="time"
+                    id="start_time"
+                    name="start_time"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="end_time">End time</label>
+                <input
+                    type="time"
+                    id="end_time"
+                    name="end_time"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="meeting_link">Online meeting link</label>
+                <input
+                    type="url"
+                    id="meeting_link"
+                    name="meeting_link"
+                    placeholder="https://meet.google.com/..."
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Learning goals or notes</label>
+                <textarea
+                    id="notes"
+                    name="notes"
+                    rows="4"
+                    placeholder="What will you learn in this session?"
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input
+                        type="checkbox"
+                        name="reminder_enabled"
+                        checked
+                    >
+                    Remind me before the session
+                </label>
+            </div>
+
+            <button type="submit" class="btn">
+                Schedule Session
+            </button>
+
+            <a href="{% url 'learning_sessions:session_list' %}">
+                Cancel
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -122,42 +122,43 @@
             </a>
         </div>
 
-        {% for session in upcoming_sessions %}
+        
+{% for session in upcoming_sessions %}
+    <a class="session-mini"
+       href="{% url 'learning_sessions:session_list' %}">
 
-            <a class="session-mini"
-               href="{% url 'learning_sessions:session_list' %}">
+        <span class="calendar-tile">
+            <strong>{{ session.session_date|date:"d" }}</strong>
+            <small>{{ session.session_date|date:"M" }}</small>
+        </span>
 
-                <span class="calendar-tile">
-                    <strong>{{ session.scheduled_at|date:"d" }}</strong>
-                    <small>{{ session.scheduled_at|date:"M" }}</small>
-                </span>
+        <span class="session-mini-copy">
+            <strong>
+                {{ session.exchange.skill.skill_name }}
+            </strong>
+            <small>
+                {{ session.session_date|date:"D, M j" }}
+                · {{ session.start_time|time:"g:i A" }}
+            </small>
+        </span>
 
-                <span class="session-mini-copy">
-                    <strong>{{ session.topic }}</strong>
-                    <small>
-                        {{ session.scheduled_at|date:"D, M j · g:i A" }}
-                    </small>
-                </span>
+        <span class="row-arrow">↗</span>
+    </a>
 
-                <span class="row-arrow">↗</span>
+{% empty %}
+    <div class="empty-state compact">
+        <span class="empty-icon">◷</span>
+        <h3>No sessions scheduled</h3>
+        <p>
+            Accepted exchanges can become your next learning session.
+        </p>
 
-            </a>
+        <a class="text-link" href="{% url 'skills:skill_list' %}">
+            Explore skills ↗
+        </a>
+    </div>
+{% endfor %}
 
-        {% empty %}
-
-            <div class="empty-state compact">
-                <span class="empty-icon">◷</span>
-                <h3>No sessions scheduled</h3>
-                <p>
-                    Accepted exchanges can become your next learning session.
-                </p>
-
-                <a class="text-link" href="{% url 'skills:skill_list' %}">
-                    Explore skills ↗
-                </a>
-            </div>
-
-        {% endfor %}
 
     </section>
 

@@ -2,21 +2,49 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
+from django.db.models import Q, Prefetch
+from django.contrib.auth.models import User
 from .models import Skill
 
 
 @login_required
 def skill_list(request):
-    skills = Skill.objects.filter(
-    user=request.user
-).order_by('-created_at')
-    return render(
-        request,
-        'skills/skill_list.html',
-        {'skills': skills}
+    query = request.GET.get('q', '').strip()
+
+    offered_skills = Skill.objects.filter(is_offered=True)
+
+    users = User.objects.exclude(
+        id=request.user.id
+    ).prefetch_related(
+        Prefetch(
+            'skills',
+            queryset=offered_skills,
+            to_attr='offered_skills'
+        )
     )
 
+    if query:
+        users = users.filter(
+            Q(username__icontains=query)
+            | Q(first_name__icontains=query)
+            | Q(last_name__icontains=query)
+            | Q(skills__skill_name__icontains=query)
+            | Q(skills__description__icontains=query)
+        ).distinct()
+
+    matches = []
+
+    for user in users:
+        user.offered_skill = (
+            user.offered_skills[0].skill_name
+            if user.offered_skills else ''
+        )
+        matches.append(user)
+
+    return render(request, 'skills/skill_list.html', {
+        'matches': matches,
+        'query': query,
+    })
 
 
 

@@ -6,8 +6,8 @@ from django.views.decorators.http import require_POST
 from accounts.models import StudentProfile
 from skills.models import Skill
 from .models import SkillExchange
-
-
+from learning_sessions.models import LearningSession
+from notifications.models import Notification
 
 @login_required
 def exchange_list(request):
@@ -31,6 +31,8 @@ def exchange_list(request):
             'sent_requests': sent_requests,
         }
     )
+
+
 
 
 @login_required
@@ -66,7 +68,24 @@ def create_exchange(request, skill_id):
                 message=request.POST.get('message', '').strip()
             )
 
+            exchange=SkillExchange.objects.create(
+                requester=request.user,
+                receiver=skill.user,
+                skill=skill,
+                message=request.POST.get('message', '').strip()
+            )
+            # Notify the owner of the requested skill
+            Notification.objects.create(
+                recipient=skill.user,
+                title="New Skill Exchange Request",
+                message=(
+                    f"{request.user.username} sent you a request to exchange skills: "
+                    f"for your skill: {skill.skill_name}."
+                )
+            )
+
             messages.success(request, 'Exchange request sent.')
+
             return redirect(
                 'exchanges:request_detail',
                 exchange_id=exchange.id
@@ -77,6 +96,7 @@ def create_exchange(request, skill_id):
         'exchanges/create_exchange.html',
         {'skill': skill}
     )
+    
 
 
 @login_required
@@ -117,8 +137,18 @@ def accept_exchange(request, exchange_id):
     else:
         exchange.status = 'accepted'
         exchange.save(update_fields=['status'])
-        messages.success(request, 'Exchange request accepted.')
 
+        Notification.objects.create(
+            recipient=exchange.requester,
+            title="Skill Exchange Request Accepted",
+            message=(
+                f"{request.user.username} accepted your skill exchange request "
+                f"for the skill: {exchange.skill.skill_name}."
+            )
+        )
+
+        messages.success(request, 'Exchange request accepted.')
+    
     return redirect(
         'exchanges:request_detail',
         exchange_id=exchange.id
@@ -139,6 +169,15 @@ def reject_exchange(request, exchange_id):
     else:
         exchange.status = 'rejected'
         exchange.save(update_fields=['status'])
+
+        Notification.objects.create(
+            recipient=exchange.requester,
+            title="Skill Exchange Request Rejected",
+            message=(
+                f"{request.user.username} rejected your skill exchange request "
+                f"for the skill: {exchange.skill.skill_name}."
+            )
+        )
         messages.success(request, 'Exchange request rejected.')
 
     return redirect(
@@ -165,6 +204,14 @@ def complete_exchange(request, exchange_id):
     else:
         exchange.status = 'completed'
         exchange.save(update_fields=['status'])
+        Notification.objects.create(
+            recipient=exchange.requester,
+            title="Skill Exchange Request Completed",
+            message=(
+                f"{request.user.username} completed the skill exchange request "
+                f"for the skill: {exchange.skill.skill_name}."
+            )
+        )
         messages.success(request, 'Exchange marked as completed.')
 
     return redirect(

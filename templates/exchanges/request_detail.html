@@ -20,5 +20,15 @@
         </form>
     </div>
 {% endif %}
+
+{% if exchange_request.status == 'accepted' %}
+    <div class="detail-actions">
+        <a class="button button-primary"
+           href="{% url 'learning_sessions:schedule_session' exchange_request.id %}">
+            Schedule Learning Session →
+        </a>
+    </div>
+{% endif %}
+
 </article><aside class="panel detail-aside"><span class="feature-icon icon-blue">✦</span><h3>Make it a great exchange</h3><p>Agree on a clear goal, choose a comfortable meeting format, and give each other room to ask questions.</p><div class="aside-divider"></div><div class="aside-tip"><strong>Keep it respectful</strong><small>Be punctual, curious, and encouraging. Everyone starts somewhere.</small></div></aside></section>
 {% endblock %}

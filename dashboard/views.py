@@ -7,43 +7,51 @@ from django.contrib import messages
 from skills.models import Skill
 from exchanges.models import SkillExchange
 from learning_sessions.models import LearningSession
-from .models import Notification
-
-
+from django.utils import timezone
+from notifications.models import Notification
 @login_required
 def dashboard(request):
-    user = request.user
-
-    # Get the logged-in student's skills
-    my_skills = Skill.objects.filter(user=user)
-
-    # Get exchanges sent or received by the student
-    my_exchanges = SkillExchange.objects.filter(
-        Q(requester=user) | Q(receiver=user)
-    ).select_related('requester', 'receiver', 'skill').distinct()
-
-    # Get the student's learning sessions
-    my_sessions = LearningSession.objects.filter(
-        Q(teacher=user) | Q(learner=user)
-    ).select_related(
-        'teacher', 'learner', 'exchange', 'exchange__skill'
-    ).distinct().order_by('session_date', 'start_time')
-
-    # Get unread notifications
-    unread_count = Notification.objects.filter(
-        user=user,
-        is_read=False
+    # Count skills the current user offers to teach
+    offered_count = Skill.objects.filter(
+        user=request.user,
+        is_offered=True
     ).count()
 
+    # Count skills the current user wants to learn
+    wanted_count = Skill.objects.filter(
+        user=request.user,
+        is_offered=False
+    ).count()
+
+    # Count incoming pending exchange requests
+    pending_count = SkillExchange.objects.filter(
+        receiver=request.user,
+        status='pending'
+    ).count()
+
+    # Get sessions where the user is the teacher or learner
+    user_sessions = LearningSession.objects.filter(
+        teacher=request.user
+    ) | LearningSession.objects.filter(
+        learner=request.user
+    )
+
+    session_count = user_sessions.count()
+
+    # Get upcoming, incomplete sessions
+    today = timezone.localdate()
+
+    upcoming_sessions = user_sessions.filter(
+        session_date__gte=today,
+        is_completed=False
+    ).order_by('session_date', 'start_time')[:5]
+
     context = {
-        'my_skills': my_skills,
-        'my_exchanges': my_exchanges,
-        'my_sessions': my_sessions,
-        'unread_count': unread_count,
-        'skills_count': my_skills.count(),
-        'pending_count': my_exchanges.filter(
-            status='pending'
-        ).count(),
+        'offered_count': offered_count,
+        'wanted_count': wanted_count,
+        'pending_count': pending_count,
+        'session_count': session_count,
+        'upcoming_sessions': upcoming_sessions,
     }
 
     return render(
@@ -52,27 +60,15 @@ def dashboard(request):
         context
     )
 
-
 @login_required
 def notifications(request):
     user_notifications = Notification.objects.filter(
-        user=request.user
+        recipient=request.user
     ).order_by('-created_at')
-
-    if request.method == 'POST':
-        user_notifications.filter(
-            is_read=False
-        ).update(is_read=True)
-
-        messages.success(
-            request,
-            'All notifications marked as read.'
-        )
-
-        return redirect('dashboard:notifications')
 
     return render(
         request,
-        'dashboard/notifications.html',
+        'notifications/notification_list.html',
         {'notifications': user_notifications}
     )
+

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "exchanges",
     'learning_sessions',
     "dashboard",
+    "notifications"
 ]
 
 MIDDLEWARE = [
@@ -78,16 +79,16 @@ WSGI_APPLICATION = 'skillcircle_project.wsgi.application'
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
 pymysql.install_as_MySQLdb()
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'skillcircle',
         'USER': 'root',
-        'PASSWORD': '7915' ,
-        'HOST': 'localhost',
+        'PASSWORD': '7915',
+        'HOST': 'localhost'
     }
 }
-
 
 
 # Password validation
@@ -114,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 

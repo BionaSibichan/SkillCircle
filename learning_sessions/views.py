@@ -6,10 +6,12 @@ from django.utils.dateparse import parse_date, parse_time
 from django.views.decorators.http import require_POST
 from django.db.models import Q
 from datetime import date
-
+from django.db import models
 from exchanges.models import SkillExchange
 from .models import LearningSession
-
+from django.utils import timezone
+from django.db import transaction
+from notifications.models import Notification
 
 @login_required
 def session_list(request):
@@ -26,6 +28,7 @@ def session_list(request):
     )
 
 
+
 @login_required
 def schedule_session(request, exchange_id):
     exchange = get_object_or_404(
@@ -35,13 +38,16 @@ def schedule_session(request, exchange_id):
         id=exchange_id
     )
 
+    # Check whether the logged-in user belongs to this exchange.
     if request.user not in (exchange.requester, exchange.receiver):
         messages.error(request, 'You cannot schedule this session.')
         return redirect('exchanges:exchange_list')
 
+    # Only accepted exchanges can be scheduled.
     if exchange.status != 'accepted':
         messages.error(
-            request, 'Only accepted exchanges can be scheduled.'
+            request,
+            'Only accepted exchanges can be scheduled.'
         )
         return redirect(
             'exchanges:exchange_detail',
@@ -59,43 +65,137 @@ def schedule_session(request, exchange_id):
             request.POST.get('end_time', '')
         )
 
-        meeting_link = request.POST.get('meeting_link', '').strip()
+        meeting_link = request.POST.get(
+            'meeting_link', ''
+        ).strip()
         notes = request.POST.get('notes', '').strip()
+        reminder_enabled = (
+            request.POST.get('reminder_enabled') == 'on'
+        )
 
-        if (
-            session_date is None
-            or start_time is None
-            or end_time is None
-            or session_date < date.today()
-            or end_time <= start_time
-        ):
-            messages.error(
-                request,
-                'Enter a valid date and time. The end time must '
-                'be after the start time.'
-            )
+        errors = []
+
+        # Validate the date and times.
+        if not session_date or not start_time or not end_time:
+            errors.append('Enter a valid date and time.')
         else:
-            session = LearningSession.objects.create(
-                exchange=exchange,
-                teacher=exchange.receiver,
-                learner=exchange.requester,
+            today = timezone.localdate()
+
+            if session_date < today:
+                errors.append(
+                    'The session date cannot be in the past.'
+                )
+
+            if end_time <= start_time:
+                errors.append(
+                    'End time must be after start time.'
+                )
+
+            if session_date == today:
+                start_datetime = timezone.make_aware(
+                    timezone.datetime.combine(
+                        session_date, start_time
+                    ),
+                    timezone.get_current_timezone()
+                )
+
+                if start_datetime <= timezone.now():
+                    errors.append(
+                        'Choose a future start time.'
+                    )
+
+        # Validate the meeting URL, if supplied.
+        if meeting_link:
+            from urllib.parse import urlparse
+
+            parsed_link = urlparse(meeting_link)
+
+            if (
+                parsed_link.scheme not in ('http', 'https')
+                or not parsed_link.netloc
+            ):
+                errors.append(
+                    'Enter a valid online meeting URL.'
+                )
+
+        if errors:
+            for error in errors:
+                messages.error(request, error)
+
+        else:
+            # Check whether either participant already has
+            # another session during this time.
+            participants = [
+                exchange.receiver,
+                exchange.requester,
+            ]
+
+            conflicts = LearningSession.objects.filter(
                 session_date=session_date,
-                start_time=start_time,
-                end_time=end_time,
-                meeting_link=meeting_link,
-                notes=notes
+                is_completed=False,
+                start_time__lt=end_time,
+                end_time__gt=start_time,
+            ).filter(
+                Q(teacher__in=participants)
+                | Q(learner__in=participants)
             )
 
-            messages.success(request, 'Learning session scheduled.')
-            return redirect(
-                'learning_sessions:session_list'
-            )
+            if conflicts.exists():
+                messages.error(
+                    request,
+                    'A participant already has a session '
+                    'at that time. Please choose another time.'
+                )
+
+            else:
+                # Create the session and notification together.
+                with transaction.atomic():
+                    session = LearningSession.objects.create(
+                        exchange=exchange,
+                        teacher=exchange.receiver,
+                        learner=exchange.requester,
+                        session_date=session_date,
+                        start_time=start_time,
+                        end_time=end_time,
+                        meeting_link=meeting_link,
+                        notes=notes,
+                        reminder_enabled=reminder_enabled,
+                    )
+
+                    # Notify the other participant.
+                    if request.user == exchange.receiver:
+                        recipient = exchange.requester
+                    else:
+                        recipient = exchange.receiver
+
+                    Notification.objects.create(
+                        recipient=recipient,
+                        title='New Learning Session Scheduled',
+                        message=(
+                            f"{request.user.username} scheduled a "
+                            f"learning session for "
+                            f"{exchange.skill.skill_name} on "
+                            f"{session_date.strftime('%B %d, %Y')} "
+                            f"from {start_time.strftime('%I:%M %p')} "
+                            f"to {end_time.strftime('%I:%M %p')}."
+                        )
+                    )
+
+                messages.success(
+                    request,
+                    'Learning session scheduled successfully.'
+                )
+
+                return redirect(
+                    'learning_sessions:session_list'
+                )
 
     return render(
         request,
         'learning_sessions/schedule_session.html',
         {'exchange': exchange}
     )
+
 
 
 @login_required

@@ -39,6 +39,14 @@
                 <a href="{% url 'skills:skill_list' %}">Explore skills</a>
                 <a href="{% url 'exchanges:exchange_list' %}">Skill exchanges</a>
                 <a href="{% url 'learning_sessions:session_list' %}">Learning sessions</a>
+                <a href="{% url 'notifications:list' %}" class="nav-link">
+    <span>🔔</span> Notifications
+    {% if unread_notification_count %}
+        <span class="notification-badge">
+            {{ unread_notification_count }}
+        </span>
+    {% endif %}
+</a>
             {% endif %}
         </nav>
 

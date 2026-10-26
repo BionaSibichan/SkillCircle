@@ -26,6 +26,6 @@ class LearningSession(models.Model):
     meeting_link = models.URLField(blank=True)
     notes = models.TextField(blank=True)
     is_completed = models.BooleanField(default=False)
-
+    reminder_enabled = models.BooleanField(default=True)
     def __str__(self):
         return f"{self.teacher.username} - {self.session_date}"

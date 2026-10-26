@@ -9,7 +9,8 @@ urlpatterns = [
     path('exchanges/', include('exchanges.urls')),
     path('learning_sessions/', include('learning_sessions.urls')),
     path('dashboard/', include('dashboard.urls')),
-     path('', include('dashboard.urls'))
+    path('', include('dashboard.urls')),
+    path('notifications/', include('notifications.urls'))
 ]
 
 

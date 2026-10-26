@@ -12,3 +12,4 @@ urlpatterns = [
     path('cancel/<int:session_id>/', views.cancel_session, name='cancel_session'),
     path('complete/<int:session_id>/', views.complete_session, name='complete_session'),
 ]
+
