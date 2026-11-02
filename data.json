@@ -1,0 +1,466 @@
+[
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$LB22ENsfwSISYvMMuNphny$fc1cOxpIFJpJ79mLajWDDfef8SbzIhqG6VdmD2xqLTU=",
+    "last_login": "2026-10-31T09:56:55.975Z",
+    "is_superuser": false,
+    "username": "anas",
+    "first_name": "Anas",
+    "last_name": "",
+    "email": "anas.abbas@brightline.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-15T17:01:25.857Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$nRErE7RIJIvhN8VVJjJ9zV$GchRJWDx/83TYF/jWtxgjgHh6BFUG/MGVV6/BXTDsKo=",
+    "last_login": "2026-10-26T17:52:22.295Z",
+    "is_superuser": false,
+    "username": "Apsa",
+    "first_name": "Apsa",
+    "last_name": "",
+    "email": "apsa@mail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-16T07:59:38.280Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$qleJwlDaszTAMGrrK276rI$Tz1Q9D6aBs/N69qIh8L9cqdGwDsgdUa7w5E8f/mvvQ8=",
+    "last_login": "2026-10-16T08:05:08.548Z",
+    "is_superuser": false,
+    "username": "Richard",
+    "first_name": "Richard",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-16T08:04:47.436Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$vsrBR1wLcRB67Aog6mW3Y8$ayz1uClsG11WJDPzlFBNR92OM6hX4DWYyzu0TxGg6Dw=",
+    "last_login": "2026-11-02T05:51:45.498Z",
+    "is_superuser": false,
+    "username": "Charls",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-28T05:16:29.689Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "c17jpfqlo1hk95zlnyk0tj5rkeh11rpj",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGlk2_oaSPmew1utdHECOFCcV4u4QKQW0b2beSyTY1pq2TkuairgIK06_WwZ8UNtBuUO7zRLnti5TlrsiD9rlOBd6Xg_376BCr98ayLIKwQ6az4aQgzPRuKKDJ0YHKkc2EY3PeiAfUJEF9IGLcs46X5R4fwDokTfj:1xNkxN:J_9oMhUnjTcW2BxR4mijIfx6jsCS5PYCpiLXdbdaL1M",
+    "expire_date": "2026-11-16T05:51:45.539Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "gka7vnn5vznnfrzm42300vzgtsm3qiy9",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQAP-FsyEs5dF69N5vIOwuSNVA0sfJ-O-GpAe9zkzmLUI89hKOLa1hYXEVIC6_DCM9U-2CH7Hem6RW93VB2RN52k3OjdPrdrZ_gxK30rcOBstWDxN5o7xn5SfOaHWkTKMagKxzDiABMhvlKDkcIWszoUadrPh8AcJPN2Y:1xHPBE:OSN62xNG0fUxHaO_Wu1cjjQRZyZWtpANXknCnmTAwzg",
+    "expire_date": "2026-10-29T17:23:48.128Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "ojfk6zzfi6rexp64v45ilgogrs29dc2m",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQAP-FsyEs5dF69N5vIOwuSNVA0sfJ-O-GpAe9zkzmLUI89hKOLa1hYXEVIC6_DCM9U-2CH7Hem6RW93VB2RN52k3OjdPrdrZ_gxK30rcOBstWDxN5o7xn5SfOaHWkTKMagKxzDiABMhvlKDkcIWszoUadrPh8AcJPN2Y:1xLw41:7HRVERgbWxSrRkw-iDK3av9wKYMVYAkm1iiWhWZGJCY",
+    "expire_date": "2026-11-11T05:19:05.392Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "usqffqmjj9afeucf7iuxgx29csrqn4m3",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQAP-FsyEs5dF69N5vIOwuSNVA0sfJ-O-GpAe9zkzmLUI89hKOLa1hYXEVIC6_DCM9U-2CH7Hem6RW93VB2RN52k3OjdPrdrZ_gxK30rcOBstWDxN5o7xn5SfOaHWkTKMagKxzDiABMhvlKDkcIWszoUadrPh8AcJPN2Y:1xN5pX:KlHhxnwo6sLur8qRVfeQicH_CreU1moDvQia2y0tXgA",
+    "expire_date": "2026-11-14T09:56:55.988Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "x9n1xsj8crjfk0seqzg7h13rc1ta139z",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQAP-FsyEs5dF69N5vIOwuSNVA0sfJ-O-GpAe9zkzmLUI89hKOLa1hYXEVIC6_DCM9U-2CH7Hem6RW93VB2RN52k3OjdPrdrZ_gxK30rcOBstWDxN5o7xn5SfOaHWkTKMagKxzDiABMhvlKDkcIWszoUadrPh8AcJPN2Y:1xMITX:ShQ9wxpyGHPoEfj9cXvc3vBecsPLGGutjbl30-iqhgA",
+    "expire_date": "2026-11-12T05:14:55.696Z"
+  }
+},
+{
+  "model": "accounts.studentprofile",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "anas"
+    ],
+    "full_name": "Anas",
+    "department": "IT",
+    "year_of_study": 1,
+    "bio": "",
+    "profile_picture": "profile_pictures/MK.jpg"
+  }
+},
+{
+  "model": "accounts.studentprofile",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "Apsa"
+    ],
+    "full_name": "Apsa",
+    "department": "CS",
+    "year_of_study": 2,
+    "bio": "",
+    "profile_picture": "profile_pictures/images_2.jpg"
+  }
+},
+{
+  "model": "accounts.studentprofile",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "Richard"
+    ],
+    "full_name": "Richard",
+    "department": "MBA",
+    "year_of_study": 1,
+    "bio": "",
+    "profile_picture": ""
+  }
+},
+{
+  "model": "skills.skill",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "Apsa"
+    ],
+    "skill_name": "Python",
+    "category": "technical",
+    "description": "Well detailed teaching skill",
+    "is_offered": true,
+    "created_at": "2026-10-19T08:57:06.771Z"
+  }
+},
+{
+  "model": "skills.skill",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "Apsa"
+    ],
+    "skill_name": "Cyber",
+    "category": "technical",
+    "description": "Teaching",
+    "is_offered": true,
+    "created_at": "2026-10-20T13:07:02.135Z"
+  }
+},
+{
+  "model": "skills.skill",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "Apsa"
+    ],
+    "skill_name": "Graphic Design",
+    "category": "creative",
+    "description": "Super",
+    "is_offered": false,
+    "created_at": "2026-10-20T13:15:07.903Z"
+  }
+},
+{
+  "model": "skills.skill",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "anas"
+    ],
+    "skill_name": "Digital Marketing",
+    "category": "creative",
+    "description": "Proficient in leveraging digital marketing strategies, including social media management, content creation, SEO, and online advertising, to enhance brand visibility, engage target audiences, and drive business growth.",
+    "is_offered": true,
+    "created_at": "2026-10-23T16:15:59.548Z"
+  }
+},
+{
+  "model": "skills.skill",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "Charls"
+    ],
+    "skill_name": "HTML & CSS",
+    "category": "technical",
+    "description": "I can teach how to create and style basic web pages.",
+    "is_offered": true,
+    "created_at": "2026-10-31T08:38:14.219Z"
+  }
+},
+{
+  "model": "skills.skill",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "Charls"
+    ],
+    "skill_name": "Canva Designing",
+    "category": "creative",
+    "description": "I can teach poster, invitation and social media post designing using Canva.",
+    "is_offered": true,
+    "created_at": "2026-10-31T08:38:56.225Z"
+  }
+},
+{
+  "model": "skills.skill",
+  "pk": 7,
+  "fields": {
+    "user": [
+      "Charls"
+    ],
+    "skill_name": "Machine Learning",
+    "category": "technical",
+    "description": "I want to learn machine learning fundamentals.",
+    "is_offered": false,
+    "created_at": "2026-10-31T08:40:26.090Z"
+  }
+},
+{
+  "model": "exchanges.skillexchange",
+  "pk": 1,
+  "fields": {
+    "requester": [
+      "anas"
+    ],
+    "receiver": [
+      "Apsa"
+    ],
+    "skill": 1,
+    "message": "Hy,I want to learn Python.",
+    "status": "accepted",
+    "created_at": "2026-10-23T16:36:55.938Z"
+  }
+},
+{
+  "model": "exchanges.skillexchange",
+  "pk": 2,
+  "fields": {
+    "requester": [
+      "Apsa"
+    ],
+    "receiver": [
+      "anas"
+    ],
+    "skill": 4,
+    "message": "I want to learn DM.",
+    "status": "accepted",
+    "created_at": "2026-10-23T19:04:14.202Z"
+  }
+},
+{
+  "model": "exchanges.skillexchange",
+  "pk": 3,
+  "fields": {
+    "requester": [
+      "Apsa"
+    ],
+    "receiver": [
+      "anas"
+    ],
+    "skill": 4,
+    "message": "I want to learn DM.",
+    "status": "rejected",
+    "created_at": "2026-10-23T19:04:14.224Z"
+  }
+},
+{
+  "model": "exchanges.skillexchange",
+  "pk": 4,
+  "fields": {
+    "requester": [
+      "Charls"
+    ],
+    "receiver": [
+      "anas"
+    ],
+    "skill": 4,
+    "message": "I want learn DM",
+    "status": "accepted",
+    "created_at": "2026-10-28T05:18:25.526Z"
+  }
+},
+{
+  "model": "exchanges.skillexchange",
+  "pk": 5,
+  "fields": {
+    "requester": [
+      "Charls"
+    ],
+    "receiver": [
+      "anas"
+    ],
+    "skill": 4,
+    "message": "I want learn DM",
+    "status": "accepted",
+    "created_at": "2026-10-28T05:18:25.545Z"
+  }
+},
+{
+  "model": "learning_sessions.learningsession",
+  "pk": 1,
+  "fields": {
+    "exchange": 1,
+    "teacher": [
+      "Apsa"
+    ],
+    "learner": [
+      "anas"
+    ],
+    "session_date": "2026-10-26",
+    "start_time": "11:20:00",
+    "end_time": "12:15:00",
+    "meeting_link": "http://127.0.0.1:8000/learning_sessions/schedule/1/",
+    "notes": "Introduction",
+    "is_completed": true,
+    "reminder_enabled": true
+  }
+},
+{
+  "model": "learning_sessions.learningsession",
+  "pk": 2,
+  "fields": {
+    "exchange": 5,
+    "teacher": [
+      "anas"
+    ],
+    "learner": [
+      "Charls"
+    ],
+    "session_date": "2026-10-28",
+    "start_time": "12:00:00",
+    "end_time": "13:30:00",
+    "meeting_link": "",
+    "notes": "",
+    "is_completed": true,
+    "reminder_enabled": true
+  }
+},
+{
+  "model": "learning_sessions.sessionreview",
+  "pk": 1,
+  "fields": {
+    "session": 1,
+    "reviewer": [
+      "anas"
+    ],
+    "rating": 3,
+    "comment": "Nice",
+    "created_at": "2026-10-26T17:51:45.916Z"
+  }
+},
+{
+  "model": "learning_sessions.sessionreview",
+  "pk": 2,
+  "fields": {
+    "session": 2,
+    "reviewer": [
+      "Charls"
+    ],
+    "rating": 5,
+    "comment": "Wonderful class",
+    "created_at": "2026-10-31T09:56:28.601Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 1,
+  "fields": {
+    "recipient": [
+      "Apsa"
+    ],
+    "title": "Skill Exchange Request Accepted",
+    "message": "anas accepted your skill exchange request for the skill: Digital Marketing.",
+    "link": null,
+    "is_read": true,
+    "created_at": "2026-10-26T17:31:03.632Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 2,
+  "fields": {
+    "recipient": [
+      "anas"
+    ],
+    "title": "New Skill Exchange Request",
+    "message": "Charls sent you a request to exchange skills: for your skill: Digital Marketing.",
+    "link": null,
+    "is_read": true,
+    "created_at": "2026-10-28T05:18:25.555Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 3,
+  "fields": {
+    "recipient": [
+      "Charls"
+    ],
+    "title": "Skill Exchange Request Accepted",
+    "message": "anas accepted your skill exchange request for the skill: Digital Marketing.",
+    "link": null,
+    "is_read": true,
+    "created_at": "2026-10-28T05:22:16.158Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 4,
+  "fields": {
+    "recipient": [
+      "Charls"
+    ],
+    "title": "New Learning Session Scheduled",
+    "message": "anas scheduled a learning session for Digital Marketing on October 28, 2026 from 12:00 PM to 01:30 PM.",
+    "link": null,
+    "is_read": true,
+    "created_at": "2026-10-28T05:26:53.937Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 5,
+  "fields": {
+    "recipient": [
+      "Charls"
+    ],
+    "title": "Skill Exchange Request Accepted",
+    "message": "anas accepted your skill exchange request for the skill: Digital Marketing.",
+    "link": null,
+    "is_read": true,
+    "created_at": "2026-10-31T08:33:58.560Z"
+  }
+}
+]
