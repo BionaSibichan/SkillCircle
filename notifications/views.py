@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
-
+from django.http import JsonResponse
 from .models import Notification
 
 
@@ -10,7 +10,7 @@ from .models import Notification
 def notification_list(request):
     user_notifications = Notification.objects.filter(
         recipient=request.user
-    )
+    ).order_by('-created_at')
 
     return render(
         request,
@@ -43,3 +43,15 @@ def mark_all_as_read(request):
     ).update(is_read=True)
 
     return redirect('notifications:list')
+
+
+@login_required
+def unread_count(request):
+    count = Notification.objects.filter(
+        recipient=request.user,
+        is_read=False
+    ).count()
+
+    return JsonResponse({
+        'count': count
+    })

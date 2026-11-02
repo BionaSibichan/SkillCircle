@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 {% block title %}Explore skills{% endblock %}
 
@@ -42,6 +41,7 @@
 <section class="people-grid">
     {% for match in matches %}
     <article class="person-card">
+
         <div class="person-card-top">
             <span class="match-label">SKILL CIRCLE MEMBER</span>
             <span class="person-menu">✦</span>
@@ -65,25 +65,59 @@
         <div class="person-skills">
             <span class="tag">Skills available</span>
 
-            {% if match.offered_skill %}
-                <span class="tag tag-soft">{{ match.offered_skill }}</span>
+            {% if match.offered_skills %}
+                {% for skill in match.offered_skills %}
+                    <span class="tag tag-soft">{{ skill.skill_name }}</span>
+                {% endfor %}
             {% else %}
                 <span class="tag tag-soft">No offered skills yet</span>
             {% endif %}
         </div>
 
-        <div class="person-card-footer">
-    <span class="availability-dot">● Open to learning</span>
+        <!-- Teacher rating and anonymous reviews -->
+        {% if match.review_count %}
+        <div class="tutor-rating">
+            <div class="rating-summary">
+                <span class="rating-star">★</span>
+                <strong>{{ match.average_rating|floatformat:1 }}/5</strong>
+                <span class="muted">
+                    ({{ match.review_count }}
+                    review{{ match.review_count|pluralize }})
+                </span>
+            </div>
 
-    {% if match.offered_skills %}
-        <a class="button button-secondary button-sm"
-           href="{% url 'exchanges:create_exchange' match.offered_skills.0.id %}">
-            Connect ↗
-        </a>
-    {% else %}
-        <span class="muted">No skills to request yet</span>
-    {% endif %}
-</div>
+            {% if match.latest_review %}
+            <div class="review-preview">
+                <span class="review-label">LATEST ANONYMOUS REVIEW</span>
+                <p>{{ match.latest_review|truncatechars:120 }}</p>
+            </div>
+            {% endif %}
+
+            <a class="text-link"
+               href="{% url 'learning_sessions:teacher_reviews' match.id %}">
+                Read all reviews ↗
+            </a>
+        </div>
+        {% else %}
+        <div class="tutor-rating no-rating">
+            <span class="muted">☆ No reviews yet</span>
+            <p class="muted">Be among the first to learn with this tutor.</p>
+        </div>
+        {% endif %}
+
+        <div class="person-card-footer">
+            <span class="availability-dot">● Open to learning</span>
+
+            {% if match.offered_skills %}
+                <a class="button button-secondary button-sm"
+                   href="{% url 'exchanges:create_exchange' match.offered_skills.0.id %}">
+                    Connect ↗
+                </a>
+            {% else %}
+                <span class="muted">No skills to request yet</span>
+            {% endif %}
+        </div>
+
     </article>
 
     {% empty %}

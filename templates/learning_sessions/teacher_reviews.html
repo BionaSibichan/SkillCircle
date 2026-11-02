@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Teacher Reviews | SkillCircle{% endblock %}
+
+{% block content %}
+<div class="page-shell">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">COMMUNITY FEEDBACK</p>
+            <h1>Tutor Reviews</h1>
+            <p class="form-intro">
+                Honest feedback from completed learning sessions.
+            </p>
+        </div>
+    </div>
+
+    <div class="form-card">
+        <h2>
+            {{ average_rating|floatformat:1 }} / 5
+            <span aria-label="star rating">★</span>
+        </h2>
+
+        <p>
+            Based on {{ total_reviews }}
+            review{{ total_reviews|pluralize }}
+        </p>
+    </div>
+
+    {% for review in reviews %}
+        <div class="form-card">
+            <h3>
+                {% for star in "12345" %}
+                    {% if forloop.counter <= review.rating %}
+                        ★
+                    {% else %}
+                        ☆
+                    {% endif %}
+                {% endfor %}
+            </h3>
+
+            <p>{{ review.comment|linebreaksbr }}</p>
+
+            <p class="eyebrow">ANONYMOUS REVIEW</p>
+
+            <small>
+                {{ review.created_at|date:"M d, Y" }}
+            </small>
+        </div>
+    {% empty %}
+        <div class="form-card">
+            <p>No reviews yet. Be the first to share feedback!</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

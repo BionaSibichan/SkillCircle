@@ -17,3 +17,185 @@
     font-size: 11px;
     font-weight: 700;
 }
+
+.tutor-rating {
+    margin: 16px 0;
+    padding: 14px;
+    border-radius: 12px;
+    background: #f8f7fc;
+}
+
+.rating-summary {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.rating-star {
+    color: #e7a52a;
+    font-size: 21px;
+}
+
+.review-preview {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #e8e4f0;
+}
+
+.review-label {
+    font-size: 10px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: #777;
+}
+
+.review-preview p {
+    margin: 6px 0;
+    line-height: 1.6;
+}
+
+.no-rating p {
+    margin-bottom: 0;
+}
+
+.nav-link {
+    position: relative;
+}
+
+.notification-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 19px;
+    height: 19px;
+    padding: 0 5px;
+    margin-left: 4px;
+    border-radius: 999px;
+    background: #ef4444;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+.notification-badge[hidden] {
+    display: none;
+}
+
+.form-container {
+    max-width: 650px;
+    margin: 30px auto;
+    padding: 30px;
+    background: #fff;
+    border: 1px solid #e8eaf0;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(20, 30, 60, 0.05);
+}
+
+.form-container .form-group {
+    margin-bottom: 20px;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.form-container input,
+.form-container select,
+.form-container textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dfe3ec;
+    border-radius: 8px;
+    font: inherit;
+    box-sizing: border-box;
+}
+
+.form-container textarea {
+    resize: vertical;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+}
+
+.alert {
+    margin-bottom: 16px;
+    padding: 12px;
+    border-radius: 8px;
+    background: #f0fdf4;
+}
+/* =========================
+   Profile Reviews
+   ========================= */
+
+.profile-reviews {
+    margin-top: 24px;
+}
+
+.review-list {
+    display: grid;
+    gap: 16px;
+    margin-top: 22px;
+}
+
+.review-card {
+    padding: 20px;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 14px;
+    background: #ffffff;
+}
+
+.review-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.review-card-header h3 {
+    margin: 0 0 6px;
+    font-size: 17px;
+}
+
+.review-rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #d99a20;
+    white-space: nowrap;
+}
+
+.review-rating span {
+    font-size: 21px;
+}
+
+.review-session-info {
+    margin: 14px 0 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 35px 20px;
+    color: #64748b;
+}
+
+.empty-state h3 {
+    color: #17233d;
+    margin-bottom: 8px;
+}
+
+.empty-state p {
+    max-width: 450px;
+    margin: auto;
+    line-height: 1.6;
+}

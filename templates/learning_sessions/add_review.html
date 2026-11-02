@@ -1,0 +1,55 @@
+ {% extends "base.html" %}
+
+{% block title %}Rate & Review | SkillCircle{% endblock %}
+
+{% block content %}
+<div class="page-shell">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">YOUR LEARNING EXPERIENCE</p>
+            <h1>Rate & Review</h1>
+            <p class="form-intro">
+                Help other students discover great teachers.
+                Your name will not appear with your review.
+            </p>
+        </div>
+    </div>
+
+    <div class="form-card">
+        <h2>{{ session.exchange.skill.skill_name }}</h2>
+
+        <p>
+            Teacher: {{ session.teacher.username }}
+        </p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="{{ form.rating.id_for_label }}">
+                    Your Rating
+                </label>
+                {{ form.rating }}
+                {{ form.rating.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.comment.id_for_label }}">
+                    Your Review
+                </label>
+                {{ form.comment }}
+                {{ form.comment.errors }}
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Submit Anonymous Review
+            </button>
+
+            <a href="{% url 'learning_sessions:session_list' %}"
+               class="btn">
+                Cancel
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}

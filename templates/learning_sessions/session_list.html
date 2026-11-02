@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 
 {% block title %}Learning Sessions | SkillCircle{% endblock %}
@@ -71,12 +70,41 @@
                         </p>
                     {% endif %}
 
-                    {% if not session.is_completed %}
+                    {% if session.is_completed %}
+
+                        {% if session.learner == request.user %}
+
+                            {% if session.review %}
+                                <p>
+                                    <strong>Review:</strong>
+                                    ✓ Review Submitted
+                                </p>
+                            {% else %}
+                                <p>
+                                    <a href="{% url 'learning_sessions:add_review' session.id %}"
+                                       class="btn btn-primary">
+                                        ★ Rate & Review
+                                    </a>
+                                </p>
+                            {% endif %}
+
+                        {% endif %}
 
                         <p>
-                            <a href="{% url 'learning_sessions:edit_session' session.id %}">
-                                Edit Session
+                            <a href="{% url 'learning_sessions:teacher_reviews' session.teacher.id %}">
+                                View Teacher Ratings & Reviews
                             </a>
+                        </p>
+
+                    {% else %}
+
+                        <p>
+                            {% if session.teacher == request.user %}
+                                <a href="{% url 'learning_sessions:edit_session' session.id %}">
+                                    Edit Session
+                                </a>
+                            {% endif %} 
+                            
                         </p>
 
                         <form method="POST"

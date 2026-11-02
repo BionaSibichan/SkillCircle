@@ -2,7 +2,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.db.models import Q, Prefetch
+from django.db.models import Q, Prefetch, Avg, Count
+from learning_sessions.models import SessionReview
 from django.contrib.auth.models import User
 from .models import Skill
 
@@ -39,12 +40,28 @@ def skill_list(request):
             user.offered_skills[0].skill_name
             if user.offered_skills else ''
         )
+
+        # Calculate the teacher's rating from completed sessions.
+        review_summary = SessionReview.objects.filter(
+            session__teacher=user,
+            session__is_completed=True
+        ).aggregate(
+            average_rating=Avg('rating'),
+            total_reviews=Count('id')
+        )
+
+        user.average_rating = (
+            review_summary['average_rating'] or 0
+        )
+        user.review_count = review_summary['total_reviews']
+
         matches.append(user)
 
     return render(request, 'skills/skill_list.html', {
         'matches': matches,
         'query': query,
     })
+
 
 
 

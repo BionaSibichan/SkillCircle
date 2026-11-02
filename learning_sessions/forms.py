@@ -3,7 +3,7 @@ from django.utils import timezone
 
 from exchanges.models import SkillExchange
 from .models import LearningSession
-
+from .models import SessionReview
 
 class LearningSessionForm(forms.ModelForm):
     exchange = forms.ModelChoiceField(
@@ -115,3 +115,38 @@ class LearningSessionForm(forms.ModelForm):
                 )
 
         return cleaned_data
+
+
+
+class SessionReviewForm(forms.ModelForm):
+    class Meta:
+        model = SessionReview
+        fields = ['rating', 'comment']
+
+        widgets = {
+            'rating': forms.Select(
+                choices=[
+                    (5, '5 - Excellent'),
+                    (4, '4 - Very Good'),
+                    (3, '3 - Good'),
+                    (2, '2 - Fair'),
+                    (1, '1 - Poor'),
+                ]
+            ),
+            'comment': forms.Textarea(attrs={
+                'rows': 5,
+                'placeholder': (
+                    'Share your experience with the teacher...'
+                ),
+            }),
+        }
+
+    def clean_rating(self):
+        rating = self.cleaned_data['rating']
+
+        if rating < 1 or rating > 5:
+            raise forms.ValidationError(
+                'Please select a rating between 1 and 5.'
+            )
+
+        return rating

@@ -9,7 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from skills.models import Skill
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
-
+from learning_sessions.models import SessionReview
 
 def register(request):
     if request.method == 'POST':
@@ -108,6 +108,9 @@ def profile(request):
         is_offered=False
     ).order_by('-created_at')
 
+    received_reviews = SessionReview.objects.filter(
+        session__teacher=request.user
+    ).select_related('session', 'reviewer','session__exchange','session__exchange__skill').order_by('-created_at')
     return render(
         request,
         'accounts/profile.html',
@@ -115,6 +118,7 @@ def profile(request):
             'student_profile': student_profile,
             'offered_skills': offered_skills,
             'wanted_skills': wanted_skills,
+            'received_reviews': received_reviews,
         }
     )
 

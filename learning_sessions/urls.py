@@ -11,5 +11,15 @@ urlpatterns = [
     path('edit/<int:session_id>/', views.edit_session, name='edit_session'),
     path('cancel/<int:session_id>/', views.cancel_session, name='cancel_session'),
     path('complete/<int:session_id>/', views.complete_session, name='complete_session'),
+    path(
+    'review/<int:session_id>/',
+    views.add_review,
+    name='add_review'
+),
+path(
+    'teacher/<int:teacher_id>/reviews/',
+    views.teacher_reviews,
+    name='teacher_reviews'
+),
 ]
 

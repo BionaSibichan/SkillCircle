@@ -29,3 +29,33 @@ class LearningSession(models.Model):
     reminder_enabled = models.BooleanField(default=True)
     def __str__(self):
         return f"{self.teacher.username} - {self.session_date}"
+
+
+
+class SessionReview(models.Model):
+    session = models.OneToOneField(
+        'learning_sessions.LearningSession',
+        on_delete=models.CASCADE,
+        related_name='review'
+    )
+
+    reviewer = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='session_reviews'
+    )
+
+    rating = models.PositiveSmallIntegerField()
+    comment = models.TextField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'{self.rating}/5 - Anonymous Review'
+
+    @property
+    def is_valid_rating(self):
+        return 1 <= self.rating <= 5

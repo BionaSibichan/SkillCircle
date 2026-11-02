@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 
 {% block title %}My Profile | SkillCircle{% endblock %}
@@ -132,4 +131,60 @@
     </div>
 </section>
 
+<!-- Reviews Received Section -->
+<section class="panel profile-reviews mt-24">
+
+    <div class="panel-heading">
+        <div>
+            <span class="eyebrow">COMMUNITY FEEDBACK</span>
+            <h2>Reviews I've Received</h2>
+            <p class="muted">
+                See what other students think about learning with you.
+            </p>
+        </div>
+
+        {% if received_reviews %}
+            <a class="button button-primary"
+               href="{% url 'learning_sessions:teacher_reviews' user.id %}">
+                Read All Reviews ↗
+            </a>
+        {% endif %}
+    </div>
+
+    {% for review in received_reviews|slice:":3" %}
+
+        <article class="review-card">
+
+            <div class="review-card-header">
+                <div>
+                    <h3>{{ review.session.exchange.skill.skill_name }}</h3>
+                    <small class="muted">
+                        {{ review.created_at|date:"M d, Y" }}
+                    </small>
+                </div>
+
+                <div class="review-rating">
+                    <span>★</span>
+                    <strong>{{ review.rating }}/5</strong>
+                </div>
+            </div>
+
+        </article>
+
+    {% empty %}
+
+        <div class="empty-state">
+            <h3>No reviews yet</h3>
+            <p>
+                Reviews from students who attend your sessions
+                will appear here.
+            </p>
+        </div>
+
+    {% endfor %}
+
+</section>
+
 {% endblock %}
+
+

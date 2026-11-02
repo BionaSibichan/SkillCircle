@@ -24,9 +24,12 @@
             <span>skill<span class="brand-accent">circle</span></span>
         </a>
 
-        <button class="mobile-menu-toggle" type="button"
+        <button class="mobile-menu-toggle"
+                type="button"
                 aria-label="Toggle navigation"
-                onclick="document.body.classList.toggle('nav-open')">☰</button>
+                onclick="document.body.classList.toggle('nav-open')">
+            ☰
+        </button>
 
         <nav class="main-nav" aria-label="Main navigation">
             <a href="{% url 'dashboard:dashboard' %}"
@@ -39,14 +42,16 @@
                 <a href="{% url 'skills:skill_list' %}">Explore skills</a>
                 <a href="{% url 'exchanges:exchange_list' %}">Skill exchanges</a>
                 <a href="{% url 'learning_sessions:session_list' %}">Learning sessions</a>
+
                 <a href="{% url 'notifications:list' %}" class="nav-link">
-    <span>🔔</span> Notifications
-    {% if unread_notification_count %}
-        <span class="notification-badge">
-            {{ unread_notification_count }}
-        </span>
-    {% endif %}
-</a>
+                    🔔 Notifications
+                    <span id="notification-count"
+                          class="notification-badge"
+                          aria-label="Unread notifications"
+                          {% if unread_notification_count == 0 %}hidden{% endif %}>
+                        {{ unread_notification_count }}
+                    </span>
+                </a>
             {% endif %}
         </nav>
 
@@ -68,20 +73,28 @@
                     </span>
                 </a>
 
-                <form method="post" action="{% url 'accounts:logout' %}" class="inline-form">
+                <form method="post"
+                      action="{% url 'accounts:logout' %}"
+                      class="inline-form">
                     {% csrf_token %}
-                    <button class="button button-ghost button-sm" type="submit">
+                    <button class="button button-ghost button-sm"
+                            type="submit">
                         Log out
                     </button>
                 </form>
+
             {% else %}
-                <a class="button button-ghost button-sm" href="{% url 'accounts:login' %}">
+
+                <a class="button button-ghost button-sm"
+                   href="{% url 'accounts:login' %}">
                     Log in
                 </a>
 
-                <a class="button button-primary button-sm" href="{% url 'accounts:register' %}">
-                    Get started <span aria-hidden="true">↗</span>
+                <a class="button button-primary button-sm"
+                   href="{% url 'accounts:register' %}">
+                    Get started ↗
                 </a>
+
             {% endif %}
         </div>
     </header>
@@ -93,7 +106,9 @@
                     <span>{{ message }}</span>
                     <button type="button"
                             aria-label="Dismiss message"
-                            onclick="this.parentElement.remove()">×</button>
+                            onclick="this.parentElement.remove()">
+                        ×
+                    </button>
                 </div>
             {% endfor %}
         </div>
@@ -104,12 +119,14 @@
     </main>
 
     <footer class="site-footer">
-        <a class="brand brand-footer" href="{% url 'dashboard:dashboard' %}">
+        <a class="brand brand-footer"
+           href="{% url 'dashboard:dashboard' %}">
             <span class="brand-mark">S</span>
             <span>skill<span class="brand-accent">circle</span></span>
         </a>
 
         <p>Learn together. Grow together.</p>
+
         <span class="footer-copy">
             © {% now "Y" %} SkillCircle · Built for curious minds.
         </span>
@@ -118,5 +135,43 @@
 </div>
 
 {% block extra_js %}{% endblock %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const badge = document.getElementById('notification-count');
+
+    if (!badge) return;
+
+    async function updateNotificationCount() {
+        try {
+            const response = await fetch(
+                "{% url 'notifications:unread_count' %}",
+                {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    cache: 'no-store'
+                }
+            );
+
+            if (!response.ok) return;
+
+            const data = await response.json();
+            const count = Number(data.count) || 0;
+
+            badge.textContent = count > 99 ? '99+' : count;
+            badge.hidden = count === 0;
+        } catch (error) {
+            console.error('Could not update notification count.', error);
+        }
+    }
+
+    updateNotificationCount();
+
+    // Refresh every 15 seconds.
+    setInterval(updateNotificationCount, 15000);
+});
+</script>
+
 </body>
 </html>
